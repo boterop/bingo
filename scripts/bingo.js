@@ -100,6 +100,9 @@ document.addEventListener("keypress", (event) => {
         timer = null;
       }
       break;
+    case "n":
+      play("numbers/hombre/nueva.wav");
+      setTimeout(() => location.reload(), 2000);
     default:
       break;
   }

@@ -107,6 +107,7 @@ document.addEventListener("keypress", async (event) => {
     case "n":
       play("numbers/hombre/nueva.wav");
       setTimeout(() => location.reload(), 2000);
+      break;
     case " ":
       playPause(true);
       await play("numbers/hombre/bingo.wav");

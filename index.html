@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/bingo.css" />
   </head>
-  <body>
-    <main class="container">
-      <section class="flex items-center justify-between">
+  <body class="flex flex-col items-center justify-between p-8 bg-primary">
+    <div class="flex gap-4 items-center justify-between w-full">
+      <section class="flex items-center justify-center">
         <div class="flex flex-col items-center juistify-center gap-1">
           <div class="bingo-ball blue">B</div>
           <div class="bingo-ball red">I</div>
@@ -17,8 +17,53 @@
           <div class="bingo-ball yellow">O</div>
         </div>
       </section>
-    </main>
-
-    <script src="scripts/bingo.js" />
+      <section class="grid grid-rows-5 w-full h-full bg-secondary">
+        <div id="row-1" class="grid grid-cols-15"></div>
+        <div id="row-2" class="grid grid-cols-15"></div>
+        <div id="row-3" class="grid grid-cols-15"></div>
+        <div id="row-4" class="grid grid-cols-15"></div>
+        <div id="row-5" class="grid grid-cols-15"></div>
+      </section>
+      <section
+        class="relative flex flex-col items-center justify-center h-full"
+      >
+        <div class="flex bingo-history-main z-10">
+          <span id="main-letter" class="text-lg font-bold" />
+          <span id="main-number" class="text-3xl font-bold" />
+        </div>
+        <div class="relative flex flex-col px-4 h-full z-0">
+          <div
+            id="history-4"
+            class="absolute top-26 right-0 flex bingo-history text-lg font-bold"
+          ></div>
+          <div
+            id="history-3"
+            class="absolute top-16 left-0 flex bingo-history text-lg font-bold"
+          ></div>
+          <div
+            id="history-2"
+            class="absolute top-6 right-0 flex bingo-history text-lg font-bold"
+          ></div>
+          <div
+            id="history-1"
+            class="absolute -top-4 left-0 flex bingo-history text-lg font-bold"
+          ></div>
+        </div>
+        <p id="balls-left" class="absolute bottom-0 text-3xl font-bold">
+          0 de 75
+        </p>
+      </section>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full">
+      <div class="flex items-center justify-center">
+        <div class="bingo-ball-brand blue">B</div>
+        <div class="bingo-ball-brand red">I</div>
+        <div class="bingo-ball-brand gray">N</div>
+        <div class="bingo-ball-brand purple">G</div>
+        <div class="bingo-ball-brand yellow">O</div>
+      </div>
+      <h1 class="text-2xl font-bold text-center">bingo.boterop.io</h1>
+    </div>
+    <script src="./scripts/bingo.js"></script>
   </body>
 </html>

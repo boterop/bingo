@@ -50,10 +50,31 @@ const say = (number) => play(`/numbers/hombre/${number}.wav`);
 
 const updateNumber = (number) => {
   const cell = document.getElementById(`cell-${number}`);
+
   if (cell) {
     const color = getColor(number);
     cell.style = `${CELL_STYLE} ${color}`;
   }
+
+  const letterIndex = Math.ceil(number / 15) - 1;
+  const letters = ["B", "I", "N", "G", "O"];
+  const letter = letters[letterIndex];
+
+  const letterElement = document.getElementById("main-letter");
+  const numberElement = document.getElementById("main-number");
+
+  letterElement.textContent = letter;
+  numberElement.textContent = number;
+
+  for (let i = 0; i < 4; i++) {
+    const history = balls[balls.length - i - 1];
+    if (history === 0) continue;
+    const element = document.getElementById(`history-${i + 1}`);
+    element.textContent = history;
+  }
+
+  const ballsLeft = document.getElementById("balls-left");
+  ballsLeft.textContent = `${balls.length} de 75`;
 };
 
 createGrid();

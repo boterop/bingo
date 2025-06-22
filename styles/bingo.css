@@ -216,6 +216,10 @@ body {
   font-size: 1.125rem; /* 18px */
 }}
 
+.text-xl {
+  font-size: 1rem; /* 16px */
+}
+
 .text-2xl {
   font-size: 1.5rem; /* 24px */
 }

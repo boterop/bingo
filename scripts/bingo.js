@@ -39,9 +39,9 @@ const getNext = () => {
   return next;
 };
 
-const play = (file) => {
+const play = async (file) => {
   const audio = new Audio(`assets/audio/${file}`);
-  audio.play().catch((error) => {
+  return audio.play().catch((error) => {
     console.error(`Error playing audio ${file}`, error);
   });
 };
@@ -77,33 +77,49 @@ const updateNumber = (number) => {
   ballsLeft.textContent = `${balls.length} de 75`;
 };
 
+const playPause = (pause = false) => {
+  play("tono.wav");
+  if (!timer && !pause) {
+    timer = setInterval(() => {
+      const next = getNext();
+
+      const latest = current;
+      balls.push(latest);
+      current = next;
+      say(next);
+      updateNumber(latest);
+      updateNumber(next);
+    }, 6 * 1000);
+  } else {
+    clearInterval(timer);
+    timer = null;
+  }
+};
+
 createGrid();
 
-document.addEventListener("keypress", (event) => {
+document.addEventListener("keypress", async (event) => {
   const key = event.key.toLowerCase();
   switch (key) {
-    case " ":
-      play("tono.wav");
-      if (!timer) {
-        timer = setInterval(() => {
-          const next = getNext();
-
-          const latest = current;
-          balls.push(latest);
-          current = next;
-          say(next);
-          updateNumber(latest);
-          updateNumber(next);
-        }, 6 * 1000);
-      } else {
-        clearInterval(timer);
-        timer = null;
-      }
+    case "enter":
+      playPause();
       break;
     case "n":
       play("numbers/hombre/nueva.wav");
       setTimeout(() => location.reload(), 2000);
+    case " ":
+      playPause(true);
+      await play("numbers/hombre/bingo.wav");
+      const bingo = confirm("Hubo riña?");
+      if (bingo) {
+        play("numbers/hombre/bingoSi.wav");
+      } else {
+        play("numbers/hombre/bingoNo.wav");
+        playPause();
+      }
+      break;
     default:
+      console.log("key", key);
       break;
   }
 });

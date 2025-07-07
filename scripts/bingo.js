@@ -12,14 +12,14 @@ const start = () => {
   const bingoButton = document.getElementById("bingo-button");
   const newButton = document.getElementById("new-button");
 
-  const buttons = [startButton, bingoButton, newButton];
-  if(isMobile()) {
-    buttons.forEach(button => button.hidden = false);
-
-    startButton.addEventListener("click", () => execKey('enter'))
-    bingoButton.addEventListener("click", () => execKey(' '))
-    newButton.addEventListener("click", () => execKey('n'))
+  if (!isMobile()) {
+    const buttons = [startButton, bingoButton, newButton];
+    buttons.forEach(button => button.remove());
   }
+
+  startButton.addEventListener("click", () => execKey('enter'))
+  bingoButton.addEventListener("click", () => execKey(' '))
+  newButton.addEventListener("click", () => execKey('n'))
 }
 
 const enableFullscreen = () => {
@@ -137,7 +137,7 @@ const playPause = (pause = false) => {
 };
 
 const execKey = async key => {
-    switch (key) {
+  switch (key) {
     case "enter":
       playPause();
       break;

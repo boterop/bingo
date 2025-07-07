@@ -5,6 +5,28 @@ let current = 0;
 let timer = null;
 const balls = [];
 
+const start = () => {
+  createGrid();
+
+  if(isMobile()) {
+    const startButton = document.getElementById("start-button");
+    const bingoButton = document.getElementById("bingo-button");
+    const newButton = document.getElementById("new-button");
+
+    startButton.hidden = false;
+    bingoButton.hidden = false;
+    newButton.hidden = false;
+
+    startButton.addEventListener("click", () => execKey('enter'))
+    bingoButton.addEventListener("click", () => execKey(' '))
+    newButton.addEventListener("click", () => execKey('n'))
+
+    console.log("Mobile");
+  }
+}
+
+const isMobile = () => navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i);
+
 const getColor = (number) => {
   const color = balls.includes(number)
     ? "background-color: red; color: white;"
@@ -96,11 +118,8 @@ const playPause = (pause = false) => {
   }
 };
 
-createGrid();
-
-document.addEventListener("keypress", async (event) => {
-  const key = event.key.toLowerCase();
-  switch (key) {
+const execKey = async key => {
+    switch (key) {
     case "enter":
       playPause();
       break;
@@ -123,4 +142,11 @@ document.addEventListener("keypress", async (event) => {
       console.log("key", key);
       break;
   }
+}
+
+document.addEventListener("keypress", async (event) => {
+  const key = event.key.toLowerCase();
+  execKey(key);
 });
+
+start();

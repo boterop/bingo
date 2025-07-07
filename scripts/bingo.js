@@ -8,14 +8,13 @@ const balls = [];
 const start = () => {
   createGrid();
 
-  if(isMobile()) {
-    const startButton = document.getElementById("start-button");
-    const bingoButton = document.getElementById("bingo-button");
-    const newButton = document.getElementById("new-button");
+  const startButton = document.getElementById("start-button");
+  const bingoButton = document.getElementById("bingo-button");
+  const newButton = document.getElementById("new-button");
 
-    startButton.hidden = false;
-    bingoButton.hidden = false;
-    newButton.hidden = false;
+  const buttons = [startButton, bingoButton, newButton];
+  if(isMobile()) {
+    buttons.forEach(button => button.hidden = false);
 
     startButton.addEventListener("click", () => execKey('enter'))
     bingoButton.addEventListener("click", () => execKey(' '))
@@ -35,7 +34,7 @@ const enableFullscreen = () => {
   }
 };
 
-const isMobile = () => navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i);
+const isMobile = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 const getColor = (number) => {
   const color = balls.includes(number)
@@ -66,7 +65,7 @@ const createGrid = () => {
 const getNext = () => {
   const next = Math.floor(Math.random() * 75) + 1;
 
-  if (balls.includes(next)) return getNext();
+  if (balls.includes(next) || next === current) return getNext();
 
   return next;
 };
@@ -129,7 +128,7 @@ const playPause = (pause = false) => {
       say(next);
       updateNumber(latest);
       updateNumber(next);
-    }, 6 * 1000);
+    }, 7 * 1000);
   } else {
     clearInterval(timer);
     timer = null;

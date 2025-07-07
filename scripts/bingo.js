@@ -5,6 +5,37 @@ let current = 0;
 let timer = null;
 const balls = [];
 
+const start = () => {
+  createGrid();
+
+  const startButton = document.getElementById("start-button");
+  const bingoButton = document.getElementById("bingo-button");
+  const newButton = document.getElementById("new-button");
+
+  if (!isMobile()) {
+    const buttons = [startButton, bingoButton, newButton];
+    buttons.forEach(button => button.remove());
+  }
+
+  startButton.addEventListener("click", () => execKey('enter'))
+  bingoButton.addEventListener("click", () => execKey(' '))
+  newButton.addEventListener("click", () => execKey('n'))
+}
+
+const enableFullscreen = () => {
+  const docEl = document.documentElement;
+
+  if (docEl.requestFullscreen) {
+    docEl.requestFullscreen();
+  } else if (docEl.webkitRequestFullscreen) {
+    docEl.webkitRequestFullscreen(); // Safari
+  } else if (docEl.msRequestFullscreen) {
+    docEl.msRequestFullscreen(); // IE11
+  }
+};
+
+const isMobile = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
 const getColor = (number) => {
   const color = balls.includes(number)
     ? "background-color: red; color: white;"
@@ -34,7 +65,7 @@ const createGrid = () => {
 const getNext = () => {
   const next = Math.floor(Math.random() * 75) + 1;
 
-  if (balls.includes(next)) return getNext();
+  if (balls.includes(next) || next === current) return getNext();
 
   return next;
 };
@@ -77,6 +108,14 @@ const updateNumber = (number) => {
   ballsLeft.textContent = `${balls.length} de 75`;
 };
 
+const updateIcon = (timer) => {
+  if(!isMobile()) return
+
+  const playButton = document.getElementById("play-icon");
+  playButton.src = timer ? 'assets/icons/pause-solid.svg' : 'assets/icons/play-solid.svg';
+  playButton.alt = timer ? 'Pausar partida' : 'Iniciar partida';
+}
+
 const playPause = (pause = false) => {
   play("tono.wav");
   if (!timer && !pause) {
@@ -89,17 +128,15 @@ const playPause = (pause = false) => {
       say(next);
       updateNumber(latest);
       updateNumber(next);
-    }, 6 * 1000);
+    }, 7 * 1000);
   } else {
     clearInterval(timer);
     timer = null;
   }
+  updateIcon(timer);
 };
 
-createGrid();
-
-document.addEventListener("keypress", async (event) => {
-  const key = event.key.toLowerCase();
+const execKey = async key => {
   switch (key) {
     case "enter":
       playPause();
@@ -123,4 +160,11 @@ document.addEventListener("keypress", async (event) => {
       console.log("key", key);
       break;
   }
+}
+
+document.addEventListener("keypress", async (event) => {
+  const key = event.key.toLowerCase();
+  execKey(key);
 });
+
+start();

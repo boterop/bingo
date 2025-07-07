@@ -20,10 +20,20 @@ const start = () => {
     startButton.addEventListener("click", () => execKey('enter'))
     bingoButton.addEventListener("click", () => execKey(' '))
     newButton.addEventListener("click", () => execKey('n'))
-
-    console.log("Mobile");
   }
 }
+
+const enableFullscreen = () => {
+  const docEl = document.documentElement;
+
+  if (docEl.requestFullscreen) {
+    docEl.requestFullscreen();
+  } else if (docEl.webkitRequestFullscreen) {
+    docEl.webkitRequestFullscreen(); // Safari
+  } else if (docEl.msRequestFullscreen) {
+    docEl.msRequestFullscreen(); // IE11
+  }
+};
 
 const isMobile = () => navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i);
 

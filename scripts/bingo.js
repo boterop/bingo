@@ -109,6 +109,14 @@ const updateNumber = (number) => {
   ballsLeft.textContent = `${balls.length} de 75`;
 };
 
+const updateIcon = (timer) => {
+  if(!isMobile()) return
+
+  const playButton = document.getElementById("play-icon");
+  playButton.src = timer ? 'assets/icons/pause-solid.svg' : 'assets/icons/play-solid.svg';
+  playButton.alt = timer ? 'Pausar partida' : 'Iniciar partida';
+}
+
 const playPause = (pause = false) => {
   play("tono.wav");
   if (!timer && !pause) {
@@ -126,6 +134,7 @@ const playPause = (pause = false) => {
     clearInterval(timer);
     timer = null;
   }
+  updateIcon(timer);
 };
 
 const execKey = async key => {

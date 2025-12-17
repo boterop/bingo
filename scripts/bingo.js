@@ -148,13 +148,36 @@ const execKey = async key => {
     case " ":
       playPause(true);
       await play("numbers/hombre/bingo.wav");
-      const bingo = confirm("Hubo riña?");
-      if (bingo) {
+      
+      const banner = document.getElementById('banner');
+      const originalBannerHTML = banner.innerHTML;
+
+      banner.innerHTML = `
+        <div class="flex flex-col items-center justify-center h-full gap-4">
+          <h1 class="text-2xl font-bold text-center">¿Hubo riña?</h1>
+          <div class="flex gap-8 items-center justify-center">
+            <button id="bingo-yes" class="flex items-center justify-center p-8 bg-green-500 border aspect-square">
+              <span class="text-4xl font-bold">Sí</span>
+            </button>
+            <button id="bingo-no" class="flex items-center justify-center p-8 bg-red-500 border aspect-square">
+              <span class="text-4xl font-bold">No</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const restoreBanner = () => banner.innerHTML = originalBannerHTML;
+
+      document.getElementById('bingo-yes').addEventListener('click', () => {
         play("numbers/hombre/bingoSi.wav");
-      } else {
+        restoreBanner();
+      });
+
+      document.getElementById('bingo-no').addEventListener('click', () => {
         play("numbers/hombre/bingoNo.wav");
         playPause();
-      }
+        restoreBanner();
+      });
       break;
     default:
       console.log("key", key);

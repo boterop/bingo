@@ -156,11 +156,21 @@ const execKey = async key => {
         <div class="flex flex-col items-center justify-center h-full gap-4">
           <h1 class="text-2xl font-bold text-center">¿Hubo riña?</h1>
           <div class="flex gap-8 items-center justify-center">
-            <button id="bingo-yes" class="flex items-center justify-center p-8 bg-green-500 border aspect-square">
-              <span class="text-4xl font-bold">Sí</span>
+            <button id="bingo-yes" class="flex items-center justify-center bg-none border aspect-square" style="padding: 1rem; cursor: pointer;">
+              <img
+                class="svg-shadow w-8"
+                src="assets/icons/thumbs-up-solid.svg"
+                alt="Sí"
+                style="filter: invert(24%) sepia(13%) saturate(5833%) hue-rotate(104deg) brightness(94%) contrast(91%);"
+              />
             </button>
-            <button id="bingo-no" class="flex items-center justify-center p-8 bg-red-500 border aspect-square">
-              <span class="text-4xl font-bold">No</span>
+            <button id="bingo-no" class="flex items-center justify-center bg-none border aspect-square" style="padding: 1rem; cursor: pointer;">
+              <img
+                class="svg-shadow w-8"
+                src="assets/icons/thumbs-down-solid.svg"
+                alt="No"
+                style="filter: invert(19%) sepia(86%) saturate(6776%) hue-rotate(357deg) brightness(97%) contrast(116%);"
+              />
             </button>
           </div>
         </div>

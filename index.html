@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="styles/bingo.css" />
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   </head>
-  <body class="flex flex-col items-center justify-between p-8 bg-primary" onClick="enableFullscreen()">
+  <body
+    class="flex flex-col items-center justify-between p-8 bg-primary"
+    onClick="enableFullscreen()"
+  >
     <div class="flex gap-4 items-center justify-between w-full">
       <section class="flex items-center justify-center">
         <div class="flex flex-col items-center juistify-center gap-1">
@@ -58,11 +61,41 @@
       </section>
     </div>
     <div class="flex gap-8 items-center justify-center h-full">
-      <button id="start-button" class="flex items-center justify-center p-8 bg-none border aspect-square" ><img id="play-icon" class="svg-shadow w-6" src="assets/icons/play-solid.svg" alt="Iniciar partida"></button>
-      <button id="bingo-button" class="flex items-center justify-center p-8 bg-none border aspect-square" ><img id="bingo-icon" class="svg-shadow w-8" src="assets/icons/dice-solid.svg" alt="Bingo"></button>
-      <button id="new-button" class="flex items-center justify-center p-8 bg-none border aspect-square" ><img id="new-icon" class="svg-shadow w-6" src="assets/icons/plus-solid.svg" alt="Nueva partido"></button>
+      <button
+        id="start-button"
+        class="flex items-center justify-center p-8 bg-none border aspect-square"
+      >
+        <img
+          id="play-icon"
+          class="svg-shadow w-6"
+          src="assets/icons/play-solid.svg"
+          alt="Iniciar partida"
+        />
+      </button>
+      <button
+        id="bingo-button"
+        class="flex items-center justify-center p-8 bg-none border aspect-square"
+      >
+        <img
+          id="bingo-icon"
+          class="svg-shadow w-8"
+          src="assets/icons/dice-solid.svg"
+          alt="Bingo"
+        />
+      </button>
+      <button
+        id="new-button"
+        class="flex items-center justify-center p-8 bg-none border aspect-square"
+      >
+        <img
+          id="new-icon"
+          class="svg-shadow w-6"
+          src="assets/icons/plus-solid.svg"
+          alt="Nueva partido"
+        />
+      </button>
     </div>
-    <div class="flex flex-col items-center justify-center h-full">
+    <div id="banner" class="flex flex-col items-center justify-center h-full">
       <div class="flex items-center justify-center">
         <div class="bingo-ball-brand blue">B</div>
         <div class="bingo-ball-brand red">I</div>

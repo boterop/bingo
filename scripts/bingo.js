@@ -148,13 +148,46 @@ const execKey = async key => {
     case " ":
       playPause(true);
       await play("numbers/hombre/bingo.wav");
-      const bingo = confirm("Hubo riña?");
-      if (bingo) {
+      
+      const banner = document.getElementById('banner');
+      const originalBannerHTML = banner.innerHTML;
+
+      banner.innerHTML = `
+        <div class="flex flex-col items-center justify-center h-full gap-4">
+          <h1 class="text-2xl font-bold text-center">¿Hubo riña?</h1>
+          <div class="flex gap-8 items-center justify-center">
+            <button id="bingo-yes" class="flex items-center justify-center bg-none border aspect-square" style="padding: 1rem; cursor: pointer;">
+              <img
+                class="svg-shadow w-8"
+                src="assets/icons/thumbs-up-solid.svg"
+                alt="Sí"
+                style="filter: invert(24%) sepia(13%) saturate(5833%) hue-rotate(104deg) brightness(94%) contrast(91%);"
+              />
+            </button>
+            <button id="bingo-no" class="flex items-center justify-center bg-none border aspect-square" style="padding: 1rem; cursor: pointer;">
+              <img
+                class="svg-shadow w-8"
+                src="assets/icons/thumbs-down-solid.svg"
+                alt="No"
+                style="filter: invert(19%) sepia(86%) saturate(6776%) hue-rotate(357deg) brightness(97%) contrast(116%);"
+              />
+            </button>
+          </div>
+        </div>
+      `;
+
+      const restoreBanner = () => banner.innerHTML = originalBannerHTML;
+
+      document.getElementById('bingo-yes').addEventListener('click', () => {
         play("numbers/hombre/bingoSi.wav");
-      } else {
+        restoreBanner();
+      });
+
+      document.getElementById('bingo-no').addEventListener('click', () => {
         play("numbers/hombre/bingoNo.wav");
         playPause();
-      }
+        restoreBanner();
+      });
       break;
     default:
       console.log("key", key);

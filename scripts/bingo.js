@@ -4,6 +4,7 @@ const CELL_STYLE =
 let current = 0;
 let timer = null;
 const balls = [];
+let wakeLock = null;
 
 const start = () => {
   createGrid();
@@ -20,6 +21,15 @@ const start = () => {
   startButton.addEventListener("click", () => execKey('enter'))
   bingoButton.addEventListener("click", () => execKey(' '))
   newButton.addEventListener("click", () => execKey('n'))
+
+  const handleVisibilityChange = async () => {
+    if (wakeLock !== null && document.visibilityState === 'visible') {
+      await requestWakeLock();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  document.addEventListener('fullscreenchange', handleVisibilityChange);
 }
 
 const enableFullscreen = () => {
@@ -35,6 +45,23 @@ const enableFullscreen = () => {
 };
 
 const isMobile = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+const requestWakeLock = async () => {
+  if ('wakeLock' in navigator) {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+    } catch (err) {
+      console.error(`${err.name}, ${err.message}`);
+    }
+  }
+};
+
+const releaseWakeLock = async () => {
+  if (wakeLock !== null) {
+    await wakeLock.release();
+    wakeLock = null;
+  }
+};
 
 const getColor = (number) => {
   const color = balls.includes(number)
@@ -116,7 +143,7 @@ const updateIcon = (timer) => {
   playButton.alt = timer ? 'Pausar partida' : 'Iniciar partida';
 }
 
-const playPause = (pause = false) => {
+const playPause = async (pause = false) => {
   play("tono.wav");
   if (!timer && !pause) {
     timer = setInterval(() => {
@@ -129,9 +156,11 @@ const playPause = (pause = false) => {
       updateNumber(latest);
       updateNumber(next);
     }, 7 * 1000);
+    await requestWakeLock();
   } else {
     clearInterval(timer);
     timer = null;
+    await releaseWakeLock();
   }
   updateIcon(timer);
 };

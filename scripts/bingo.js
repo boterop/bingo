@@ -12,25 +12,68 @@ const start = () => {
   const startButton = document.getElementById("start-button");
   const bingoButton = document.getElementById("bingo-button");
   const newButton = document.getElementById("new-button");
+  const helpButton = document.getElementById("help-button");
+  const helpModal = document.getElementById("help-modal");
+  const closeButton = document.querySelector(".close-button");
 
   if (!isMobile()) {
     const buttons = [startButton, bingoButton, newButton];
-    buttons.forEach(button => button.remove());
+    buttons.forEach((button) => button.remove());
   }
 
-  startButton.addEventListener("click", () => execKey('enter'))
-  bingoButton.addEventListener("click", () => execKey(' '))
-  newButton.addEventListener("click", () => execKey('n'))
+  startButton.addEventListener("click", () => execKey("enter"));
+  bingoButton.addEventListener("click", () => execKey(" "));
+  newButton.addEventListener("click", () => execKey("n"));
+
+  helpButton.addEventListener("click", () => {
+    helpModal.style.display = "block";
+  });
+
+  closeButton.addEventListener("click", () => {
+    helpModal.style.display = "none";
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target == helpModal) {
+      helpModal.style.display = "none";
+    }
+  });
 
   const handleVisibilityChange = async () => {
-    if (wakeLock !== null && document.visibilityState === 'visible') {
+    if (wakeLock !== null && document.visibilityState === "visible") {
       await requestWakeLock();
     }
   };
 
-  document.addEventListener('visibilitychange', handleVisibilityChange);
-  document.addEventListener('fullscreenchange', handleVisibilityChange);
-}
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  document.addEventListener("fullscreenchange", handleVisibilityChange);
+  setHelpContent();
+};
+
+const setHelpContent = () => {
+  const helpContent = document.getElementById("help-content");
+  let content = "";
+
+  if (isMobile()) {
+    content = `
+      <ul>
+        <li><strong>Botón de Play/Pausa:</strong> Inicia o pausa la extracción de bolas.</li>
+        <li><strong>Botón de Bingo:</strong> Detiene el juego para comprobar un bingo.</li>
+        <li><strong>Botón de Nuevo Juego:</strong> Inicia una nueva partida.</li>
+      </ul>
+    `;
+  } else {
+    content = `
+      <ul>
+        <li><strong>Enter:</strong> Inicia o pausa la extracción de bolas.</li>
+        <li><strong>Barra espaciadora:</strong> Detiene el juego para comprobar un bingo.</li>
+        <li><strong>Tecla N:</strong> Inicia una nueva partida.</li>
+      </ul>
+    `;
+  }
+
+  helpContent.innerHTML = content;
+};
 
 const enableFullscreen = () => {
   const docEl = document.documentElement;
@@ -44,12 +87,17 @@ const enableFullscreen = () => {
   }
 };
 
-const isMobile = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+const isMobile = () =>
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  ) ||
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0;
 
 const requestWakeLock = async () => {
-  if ('wakeLock' in navigator) {
+  if ("wakeLock" in navigator) {
     try {
-      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock = await navigator.wakeLock.request("screen");
     } catch (err) {
       console.error(`${err.name}, ${err.message}`);
     }
@@ -136,12 +184,14 @@ const updateNumber = (number) => {
 };
 
 const updateIcon = (timer) => {
-  if(!isMobile()) return
+  if (!isMobile()) return;
 
   const playButton = document.getElementById("play-icon");
-  playButton.src = timer ? 'assets/icons/pause-solid.svg' : 'assets/icons/play-solid.svg';
-  playButton.alt = timer ? 'Pausar partida' : 'Iniciar partida';
-}
+  playButton.src = timer
+    ? "assets/icons/pause-solid.svg"
+    : "assets/icons/play-solid.svg";
+  playButton.alt = timer ? "Pausar partida" : "Iniciar partida";
+};
 
 const playPause = async (pause = false) => {
   play("tono.wav");
@@ -165,7 +215,7 @@ const playPause = async (pause = false) => {
   updateIcon(timer);
 };
 
-const execKey = async key => {
+const execKey = async (key) => {
   switch (key) {
     case "enter":
       playPause();
@@ -177,8 +227,8 @@ const execKey = async key => {
     case " ":
       playPause(true);
       await play("numbers/hombre/bingo.wav");
-      
-      const banner = document.getElementById('banner');
+
+      const banner = document.getElementById("banner");
       const originalBannerHTML = banner.innerHTML;
 
       banner.innerHTML = `
@@ -205,14 +255,14 @@ const execKey = async key => {
         </div>
       `;
 
-      const restoreBanner = () => banner.innerHTML = originalBannerHTML;
+      const restoreBanner = () => (banner.innerHTML = originalBannerHTML);
 
-      document.getElementById('bingo-yes').addEventListener('click', () => {
+      document.getElementById("bingo-yes").addEventListener("click", () => {
         play("numbers/hombre/bingoSi.wav");
         restoreBanner();
       });
 
-      document.getElementById('bingo-no').addEventListener('click', () => {
+      document.getElementById("bingo-no").addEventListener("click", () => {
         play("numbers/hombre/bingoNo.wav");
         playPause();
         restoreBanner();
@@ -222,7 +272,7 @@ const execKey = async key => {
       console.log("key", key);
       break;
   }
-}
+};
 
 document.addEventListener("keypress", async (event) => {
   const key = event.key.toLowerCase();

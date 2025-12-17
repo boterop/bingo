@@ -124,7 +124,7 @@ body {
 }
 
 .bg-primary {
-  background-color: #85CFE0; /* Primary color */
+  background-color: #85cfe0; /* Primary color */
 }
 
 .bg-secondary {
@@ -225,7 +225,6 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-
 #help-modal h2 {
   color: #333;
   font-size: 1.5rem;
@@ -240,7 +239,7 @@ body {
   border: 1px solid #888;
   width: 50%; /* Reduced width for desktop */
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Media query for smaller screens */
@@ -249,7 +248,6 @@ body {
     width: 90%; /* Wider for mobile */
   }
 }
-
 
 #help-modal ul {
   list-style: none;
@@ -351,8 +349,8 @@ body {
 /* No tailwind classes */
 
 .svg-shadow {
-  -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
-  filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+  -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
   /* Similar syntax to box-shadow */
 }
 
@@ -360,3 +358,4 @@ body {
   -webkit-filter: none;
   filter: none;
 }
+

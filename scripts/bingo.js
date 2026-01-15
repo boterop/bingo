@@ -132,10 +132,6 @@ const createGrid = () => {
       cell.style = `${CELL_STYLE} ${color}`;
       cell.textContent = number;
 
-      if (isMobile()) {
-        cell.classList.add('bingo-grid-cell-mobile');
-      }
-
       row.appendChild(cell);
     }
   }
